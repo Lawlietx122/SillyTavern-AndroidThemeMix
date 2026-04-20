@@ -1,0 +1,777 @@
+/* ============================================================
+   SillyTavern Android Theme — style.css
+   A clean, modern Android/Material You inspired mobile theme.
+   Designed for comfortable mobile use.
+   ============================================================ */
+
+/* ── CSS Variables ── */
+:root {
+    --at-bg-primary: #000000;
+    --at-bg-secondary: #111111;
+    --at-bg-card: #1a1a1a;
+    --at-bg-card-hover: #222222;
+    --at-bg-elevated: #252525;
+    --at-bg-sheet: #1c1c1e;
+    --at-text-primary: #f0f0f0;
+    --at-text-secondary: #8e8e93;
+    --at-text-tertiary: #636366;
+    --at-accent: #6c9fff;
+    --at-accent-dim: rgba(108, 159, 255, 0.15);
+    --at-border: #2c2c2e;
+    --at-border-light: #3a3a3c;
+    --at-radius-sm: 8px;
+    --at-radius-md: 14px;
+    --at-radius-lg: 20px;
+    --at-radius-xl: 28px;
+    --at-radius-full: 50%;
+    --at-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    --at-shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+    --at-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --at-bottomnav-height: 60px;
+    --at-toolbar-height: 48px;
+    --at-font: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Global Reset for Mobile ── */
+body {
+    font-family: var(--at-font) !important;
+    background: var(--at-bg-primary) !important;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+}
+
+/* ══════════════════════════════════════════
+   1. HIDE DEFAULT ST TOP BAR (on mobile)
+   ══════════════════════════════════════════ */
+@media screen and (max-width: 1000px) {
+    #top-bar {
+        display: none !important;
+    }
+    
+    /* Reclaim space from hidden top bar */
+    #sheld {
+        top: 0 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+}
+
+/* ══════════════════════════════════════════
+   2. BOTTOM NAVIGATION BAR
+   ══════════════════════════════════════════ */
+#at-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--at-bottomnav-height);
+    background: var(--at-bg-secondary);
+    border-top: 1px solid var(--at-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 10000;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform var(--at-transition);
+}
+
+#at-bottom-nav.at-hidden {
+    transform: translateY(100%);
+}
+
+.at-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 16px;
+    border-radius: var(--at-radius-lg);
+    cursor: pointer;
+    transition: all var(--at-transition);
+    color: var(--at-text-secondary);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    position: relative;
+    min-width: 48px;
+}
+
+.at-nav-item:active {
+    transform: scale(0.92);
+}
+
+.at-nav-item.active {
+    color: var(--at-accent);
+}
+
+.at-nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 28px;
+    background: var(--at-accent-dim);
+    border-radius: var(--at-radius-md);
+    z-index: -1;
+}
+
+.at-nav-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.at-nav-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.at-nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* ══════════════════════════════════════════
+   3. BOTTOM SHEET OVERLAY
+   ══════════════════════════════════════════ */
+.at-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--at-transition), visibility var(--at-transition);
+}
+
+.at-sheet-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.at-bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 85vh;
+    background: var(--at-bg-sheet);
+    border-radius: var(--at-radius-xl) var(--at-radius-xl) 0 0;
+    z-index: 10002;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.at-bottom-sheet.active {
+    transform: translateY(0);
+}
+
+.at-sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--at-text-tertiary);
+    border-radius: 2px;
+    margin: 10px auto 6px;
+    flex-shrink: 0;
+}
+
+.at-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px 14px;
+    flex-shrink: 0;
+}
+
+.at-sheet-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--at-text-primary);
+}
+
+.at-sheet-close {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--at-radius-full);
+    background: var(--at-bg-elevated);
+    border: none;
+    color: var(--at-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.at-sheet-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 20px 20px;
+    flex: 1;
+}
+
+/* ══════════════════════════════════════════
+   4. CHAT TOOLBAR (replaces top bar in chat view)
+   ══════════════════════════════════════════ */
+#at-chat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--at-border);
+    min-height: var(--at-toolbar-height);
+}
+
+#at-chat-toolbar .at-toolbar-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--at-radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--at-border-light);
+}
+
+#at-chat-toolbar .at-toolbar-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--at-text-primary);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#at-chat-toolbar .at-toolbar-model {
+    font-size: 11px;
+    color: var(--at-text-tertiary);
+    background: var(--at-bg-card);
+    padding: 3px 8px;
+    border-radius: var(--at-radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.at-toolbar-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.at-toolbar-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--at-radius-full);
+    background: transparent;
+    border: none;
+    color: var(--at-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--at-transition);
+}
+
+.at-toolbar-btn:active {
+    background: var(--at-bg-card);
+    transform: scale(0.9);
+}
+
+.at-toolbar-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* ══════════════════════════════════════════
+   5. CHAT MESSAGES RESTYLE
+   ══════════════════════════════════════════ */
+@media screen and (max-width: 1000px) {
+    /* Adjust chat area for bottom nav */
+    #form_sheld {
+        padding-bottom: calc(var(--at-bottomnav-height) + env(safe-area-inset-bottom, 0px) + 4px) !important;
+    }
+
+    /* Message container */
+    .mes {
+        padding: 10px 14px !important;
+        margin: 0 !important;
+        border: none !important;
+        border-bottom: 1px solid var(--at-border) !important;
+        background: transparent !important;
+    }
+
+    /* Message header (avatar + name) */
+    .mes .ch_name {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding-bottom: 4px !important;
+    }
+
+    /* Avatar */
+    .mes .avatar img {
+        border-radius: var(--at-radius-full) !important;
+    }
+
+    /* Message text */
+    .mes_text {
+        font-size: 15px !important;
+        line-height: 1.55 !important;
+        color: var(--at-text-primary) !important;
+    }
+
+    /* Message action buttons — simplify */
+    .mes_buttons .mes_button {
+        opacity: 0.5;
+        transition: opacity var(--at-transition);
+    }
+    
+    .mes:hover .mes_buttons .mes_button,
+    .mes .mes_buttons .mes_button:focus {
+        opacity: 1;
+    }
+
+    /* Input area restyle */
+    #send_form {
+        border-radius: var(--at-radius-xl) !important;
+        background: var(--at-bg-card) !important;
+        border: 1px solid var(--at-border) !important;
+        margin: 6px 10px !important;
+        padding: 4px 6px !important;
+        overflow: hidden;
+    }
+
+    #send_textarea {
+        background: transparent !important;
+        border: none !important;
+        color: var(--at-text-primary) !important;
+        font-size: 15px !important;
+        padding: 10px 12px !important;
+        min-height: 20px !important;
+    }
+
+    #send_textarea::placeholder {
+        color: var(--at-text-tertiary) !important;
+    }
+
+    /* Send button */
+    #send_but,
+    #mes_continue {
+        border-radius: var(--at-radius-full) !important;
+        background: var(--at-accent) !important;
+        border: none !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Options button area */
+    #options_button, #option_regenerate {
+        border-radius: var(--at-radius-full) !important;
+    }
+}
+
+/* ══════════════════════════════════════════
+   6. DRAWER/PANEL RESTYLING (Settings panels)
+   ══════════════════════════════════════════ */
+@media screen and (max-width: 1000px) {
+    /* Make all drawer panels look like bottom sheets */
+    .drawer-content {
+        background: var(--at-bg-sheet) !important;
+        border: none !important;
+        border-radius: var(--at-radius-lg) var(--at-radius-lg) 0 0 !important;
+        padding: 16px !important;
+    }
+
+    /* Right panel (characters) */
+    #right-nav-panel {
+        background: var(--at-bg-secondary) !important;
+        border-left: none !important;
+    }
+
+    /* Character cards in list */
+    .character_select {
+        border-radius: var(--at-radius-md) !important;
+        margin: 4px 0 !important;
+        padding: 10px 12px !important;
+        background: var(--at-bg-card) !important;
+        border: 1px solid var(--at-border) !important;
+        transition: background var(--at-transition) !important;
+    }
+
+    .character_select:active {
+        background: var(--at-bg-card-hover) !important;
+    }
+
+    /* Input fields */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="url"],
+    select,
+    textarea {
+        background: var(--at-bg-card) !important;
+        border: 1px solid var(--at-border) !important;
+        border-radius: var(--at-radius-sm) !important;
+        color: var(--at-text-primary) !important;
+        padding: 10px 12px !important;
+        font-size: 14px !important;
+        transition: border-color var(--at-transition) !important;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--at-accent) !important;
+        outline: none !important;
+    }
+
+    /* Buttons */
+    .menu_button,
+    .api_button {
+        border-radius: var(--at-radius-sm) !important;
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        transition: all var(--at-transition) !important;
+    }
+
+    .menu_button:active,
+    .api_button:active {
+        transform: scale(0.97);
+    }
+
+    /* Sliders */
+    input[type="range"] {
+        -webkit-appearance: none;
+        height: 4px !important;
+        border-radius: 2px !important;
+        background: var(--at-border-light) !important;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: var(--at-radius-full);
+        background: var(--at-accent);
+        border: 3px solid var(--at-bg-primary);
+        box-shadow: var(--at-shadow);
+    }
+
+    /* Checkboxes — material style */
+    input[type="checkbox"] {
+        width: 18px !important;
+        height: 18px !important;
+        border-radius: 4px !important;
+        accent-color: var(--at-accent) !important;
+    }
+}
+
+/* ══════════════════════════════════════════
+   7. SCROLLBAR STYLE
+   ══════════════════════════════════════════ */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--at-border-light);
+    border-radius: 3px;
+}
+
+/* ══════════════════════════════════════════
+   8. CONTEXT MENU (Long press on message)
+   ══════════════════════════════════════════ */
+#at-context-menu {
+    position: fixed;
+    z-index: 10003;
+    background: var(--at-bg-elevated);
+    border-radius: var(--at-radius-md);
+    box-shadow: var(--at-shadow-lg);
+    padding: 6px 0;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95);
+    transition: all 0.15s ease;
+    border: 1px solid var(--at-border);
+}
+
+#at-context-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.at-ctx-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    color: var(--at-text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background var(--at-transition);
+}
+
+.at-ctx-item:active {
+    background: var(--at-bg-card);
+}
+
+.at-ctx-item svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--at-text-secondary);
+    flex-shrink: 0;
+}
+
+.at-ctx-divider {
+    height: 1px;
+    background: var(--at-border);
+    margin: 4px 0;
+}
+
+/* ══════════════════════════════════════════
+   9. WELCOME SCREEN RESTYLE
+   ══════════════════════════════════════════ */
+@media screen and (max-width: 1000px) {
+    /* Welcome/landing page */
+    #version_display_welcome {
+        font-size: 13px !important;
+        color: var(--at-text-tertiary) !important;
+    }
+
+    /* Quick action buttons on welcome screen */
+    #welcome-container .menu_button {
+        border-radius: var(--at-radius-md) !important;
+        padding: 12px 16px !important;
+        background: var(--at-bg-card) !important;
+        border: 1px solid var(--at-border) !important;
+    }
+}
+
+/* ══════════════════════════════════════════
+   10. BACKGROUND GALLERY (in bottom sheet)
+   ══════════════════════════════════════════ */
+.at-bg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.at-bg-item {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--at-radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all var(--at-transition);
+}
+
+.at-bg-item.selected {
+    border-color: var(--at-accent);
+}
+
+.at-bg-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.at-bg-item .at-bg-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4px 6px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    font-size: 10px;
+    color: white;
+    text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   11. ANIMATIONS
+   ══════════════════════════════════════════ */
+@keyframes at-fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes at-slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes at-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Loading indicator */
+.at-loading {
+    display: flex;
+    gap: 4px;
+    padding: 8px 0;
+}
+
+.at-loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--at-radius-full);
+    background: var(--at-accent);
+    animation: at-pulse 1.2s ease-in-out infinite;
+}
+
+.at-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.at-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ══════════════════════════════════════════
+   12. UTILITY CLASSES
+   ══════════════════════════════════════════ */
+.at-hidden { display: none !important; }
+
+.at-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.at-card {
+    background: var(--at-bg-card);
+    border-radius: var(--at-radius-md);
+    border: 1px solid var(--at-border);
+    padding: 14px;
+}
+
+.at-divider {
+    height: 1px;
+    background: var(--at-border);
+    margin: 12px 0;
+}
+
+/* ══════════════════════════════════════════
+   13. SETTINGS PANEL in Bottom Sheet
+   ══════════════════════════════════════════ */
+.at-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.at-settings-card {
+    background: var(--at-bg-card);
+    border-radius: var(--at-radius-md);
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all var(--at-transition);
+    border: 1px solid var(--at-border);
+}
+
+.at-settings-card:active {
+    background: var(--at-bg-card-hover);
+    transform: scale(0.97);
+}
+
+.at-settings-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--at-text-primary);
+    margin-bottom: 6px;
+}
+
+.at-settings-card-preview {
+    font-size: 11px;
+    color: var(--at-text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════
+   14. PERSONA LIST (in bottom sheet)
+   ══════════════════════════════════════════ */
+.at-persona-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--at-border);
+    cursor: pointer;
+    transition: background var(--at-transition);
+}
+
+.at-persona-item:active {
+    background: var(--at-bg-card);
+}
+
+.at-persona-item img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--at-radius-full);
+    object-fit: cover;
+}
+
+.at-persona-info {
+    flex: 1;
+}
+
+.at-persona-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--at-text-primary);
+}
+
+.at-persona-desc {
+    font-size: 12px;
+    color: var(--at-text-secondary);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+
+.at-persona-check {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--at-radius-full);
+    border: 2px solid var(--at-border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.at-persona-item.selected .at-persona-check {
+    background: var(--at-accent);
+    border-color: var(--at-accent);
+}

@@ -1,0 +1,14 @@
+{
+    "display_name": "Android Mobile Theme",
+    "description": "A clean, modern Android-inspired mobile theme for SillyTavern. Bottom navigation, bottom sheets, minimal UI — designed for comfortable mobile use.",
+    "loading_order": 10,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "AndroidTheme",
+    "version": "1.0.0",
+    "license": "AGPL-3.0",
+    "homepage": "",
+    "auto_update": true
+}
